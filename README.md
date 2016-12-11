@@ -12,4 +12,4 @@ Code:
 
 Note: Work in progress on World Window API image overlay
 
-View the [live demo]().
+View the application :https://jeetu-gis.github.io/ImageX/.
