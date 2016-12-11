@@ -216,6 +216,9 @@ app.controller('worldwindCtrl', function($scope, $location, $http) {
 
     //   Add some image layers to the World Window's globe.
     wwd.addLayer(new WorldWind.BMNGOneImageLayer());
+     // Add a compass, a coordinates display and some view controls to the World Window.
+        wwd.addLayer(new WorldWind.CompassLayer());
+        wwd.addLayer(new WorldWind.CoordinatesDisplayLayer(wwd));
 });
 
 
