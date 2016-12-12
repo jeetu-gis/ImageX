@@ -211,14 +211,34 @@ app.controller('mapviewCtrl', function($scope, $location, $timeout, Levels) {
 
 app.controller('worldwindCtrl', function($scope, $location, $http) {
 
-    // Create a World Window for the canvas.
+      // Create a World Window for the canvas.
     var wwd = new WorldWind.WorldWindow("canvasOne");
 
     //   Add some image layers to the World Window's globe.
-    wwd.addLayer(new WorldWind.BMNGOneImageLayer());
-     // Add a compass, a coordinates display and some view controls to the World Window.
-        wwd.addLayer(new WorldWind.CompassLayer());
-        wwd.addLayer(new WorldWind.CoordinatesDisplayLayer(wwd));
+     wwd.addLayer(new WorldWind.BMNGOneImageLayer());
+
+    // Add a compass, a coordinates display and some view controls to the World Window.
+    wwd.addLayer(new WorldWind.CoordinatesDisplayLayer(wwd));
+    wwd.addLayer(new WorldWind.ViewControlsLayer(wwd));
+
+   // API page : http://worldwindserver.net/webworldwind/api-doc/TiledImageLayer.html
+   // It is not work because there is :  "-layer/"
+   //at line # 220  WebWorldWind/src/layer/TiledImageLayer.js => TiledImageLayer.prototype.createTile function which is not the format of the Cache URL
+   // this is wrong: https://d2xy2u667w9tvp.cloudfront.net/LAYDB-1-BlueMarbleWithBathymetry-data/1072915200000/-layer/0/0/0_1.jpg
+
+    var sector = new WorldWind.Sector(-90, 90, -180, 180);
+    var location = new WorldWind.Location(45, 45); //tile size in degree
+    var numLevels = 5;
+    var imageFormat = "image/jpeg";
+    var cachePath = "https://d2xy2u667w9tvp.cloudfront.net/LAYDB-1-BlueMarbleWithBathymetry-data/1072915200000/";
+    var tileWidth = 256;
+    var tileHeight = 256;
+    var tm = new WorldWind.TiledImageLayer(sector, location, numLevels, imageFormat, cachePath, tileWidth, tileHeight)
+    tm.prePopulate(wwd);
+    tm.refresh();
+    wwd.addLayer(tm);
+
+    console.log("WW Loaded");
 });
 
 
@@ -226,7 +246,7 @@ app.controller('worldwindCtrl', function($scope, $location, $http) {
  * Controls all other Pages
  */
 app.controller('PageCtrl', function($scope) {
-    console.log("Page Controller reporting for duty.");
+    console.log("Page Controller");
 
     $('.carousel').carousel({
         interval: 5000
