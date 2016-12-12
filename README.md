@@ -10,7 +10,7 @@ Code:
 
 3. app.js is the map application file where routers and controllers are written
 
-4. APIs used: Angular JS, LEaflet JS, World Window
+4. APIs used: Angular JS, Leaflet JS, World Window
 
 5. CSS used Bootstrap
 
